@@ -37,34 +37,6 @@ const useGetData = ( url: string ) => {
         })
     }
 
-    /*const GetOption = async ( users: any ) => {
-        try {
-            const res = await fetch( url + 'category/' ,{
-                method: 'GET',
-                headers: { 'authorization': `${ users._id }` }
-            })
-
-            const response: Array<OptionType> = await res.json()
-            const newOption = option.map((item,index) => ({ ...item, ...response[index] }))
-            const optionEnd = response.filter((item) => item.option !== undefined)
-            const pathNow = newOption.filter(item=> document.location.pathname === item.path)
-
-            setOption([ ...newOption, ...optionEnd ])
-            setProject( pathNow[0] )
-            setLoader(false)
-            setOptionLoader(false)
-
-            setChangeBgImage(
-                pathNow[0].image === undefined ?
-                    imageBg[0].src.large2x :
-                    pathNow[0].image
-            )
-        }catch (err){
-            setOptionLoader(true)
-            console.log(err)
-        }
-    }*/
-
     const GetOption = async (userId: string) => {
         try {
             // 🔹 Chercher le(s) document(s) où userId == users.uid
@@ -99,22 +71,6 @@ const useGetData = ( url: string ) => {
         }
     };
 
-
-    /*const GetData = async ( users: any ) => {
-        try {
-            const res: any = await fetch( url + 'tasks/',{
-                method: 'GET',
-                headers: { 'authorization': `${ users._id }` }
-            })
-
-            const response = await res.json()
-
-            setTasksData(response)
-            setTasksLoader(false)
-        }catch (err){
-            console.log(err)
-        }
-    }*/
     const GetData = async (userId: any) => {
         try {
             // 🔹 Récupérer les tâches où userId == users.uid
@@ -134,32 +90,6 @@ const useGetData = ( url: string ) => {
         }
     };
 
-    /*const GetUsers = async () => {
-        const token = localStorage.getItem('token')
-
-        try {
-            const res = await fetch( url + 'users/' ,{
-                method: "GET",
-                headers: { 'authorization': `token ${ token }` }
-            })
-
-            const response = await res.json()
-
-            if( response.err === undefined ){
-                GetOption( response.data ).then()
-                GetData( response.data ).then()
-            }else{
-                navigate('/sign_in')
-            }
-
-            setUsers( response.data )
-            setUsersLoader(false)
-        }catch (err){
-            setUsersLoader(true)
-            navigate('/sign_in')
-            console.log(err)
-        }
-    }*/
     const GetUsers = async (firebaseUserId: string, email: string) => {
         // Ici on pourrait créer ou récupérer un user dans notre API
         // Exemple minimal : on stocke juste email + uid
@@ -174,7 +104,7 @@ const useGetData = ( url: string ) => {
         GetPhotos()
 
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
+            if ( user ) {
                 await GetUsers(user.uid, user.email || "");
             } else {
                 navigate("/sign_in");
