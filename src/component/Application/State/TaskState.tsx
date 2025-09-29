@@ -20,7 +20,7 @@ export const TaskLoader = atom({
 export type TaskType = {
     _id?: string,
     users_Id?: string,
-    option_Id?: string,
+    option_Id?: string | number,
     project?: string,
     category: string,
     alarm?: string,
