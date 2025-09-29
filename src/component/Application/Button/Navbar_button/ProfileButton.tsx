@@ -14,12 +14,19 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import {useSetRecoilState} from "recoil";
 import {DrawerStateGa} from "../../State/DrawerState";
+import { getAuth, signOut } from "firebase/auth";
 
 const LogoutModal = (props: any) => {
+    const auth = getAuth();
 
-    const logoutYes = () => {
-        localStorage.removeItem('token')
-        location.reload()
+    const logoutYes = async () => {
+        try {
+            await signOut(auth);
+            // Déconnecté avec succès"
+            location.reload() //actualiser la page
+        } catch (error) {
+            console.error("❌ Erreur lors de la déconnexion:", error);
+        }
     }
 
     return (

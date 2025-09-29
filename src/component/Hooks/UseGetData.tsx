@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {createClient} from "pexels";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {ChangeBgImage, loaderImage, PexelsImage} from "../Application/State/BackgroundImage";
 import {UsersLoader, UsersState, UsersType} from "../Application/State/UsersState";
 import {OptionLoader, OptionState, OptionType, Project} from "../Application/State/OptionState";
@@ -92,7 +92,6 @@ const useGetData = ( url: string ) => {
 
     const GetUsers = async (firebaseUserId: string, email: string) => {
         // Ici on pourrait créer ou récupérer un user dans notre API
-        // Exemple minimal : on stocke juste email + uid
         const userData = { _id: firebaseUserId, email };
         setUsers(userData);
         await GetOption(firebaseUserId);

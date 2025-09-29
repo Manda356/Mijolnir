@@ -59,16 +59,14 @@ const Sign_in: React.FC = () => {
             console.log("error")
         } else {
             try {
-                const userCredential = await signInWithEmailAndPassword(
+                await signInWithEmailAndPassword(
                     auth,
                     newData.email as string,
                     newData.password as string
                 )
 
-                const user = userCredential.user
-
-                localStorage.setItem("token", await user.getIdToken()) // 🔹 sauvegarde du token
                 location.reload() // 🔹 redirection
+
                 form.reset()
             } catch (err: any) {
                 console.error(err)
