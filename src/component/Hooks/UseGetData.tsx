@@ -102,7 +102,6 @@ const useGetData = ( url: string ) => {
 
     useEffect(() => {
         GetPhotos()
-
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if ( user ) {
                 await GetUsers(user.uid, user.email || "");
@@ -111,7 +110,6 @@ const useGetData = ( url: string ) => {
                 setUsersLoader(false);
             }
         });
-
         return () => unsubscribe();
     },[])
 

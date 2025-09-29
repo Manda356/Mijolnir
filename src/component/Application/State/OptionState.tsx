@@ -42,7 +42,7 @@ export const OptionState = atom<Array<OptionType>>({
 })
 
 export type OptionType = {
-    _id?: string,
+    _id?: string | number,
     icon?: any,
     image?: string,
     users_Id?: string,

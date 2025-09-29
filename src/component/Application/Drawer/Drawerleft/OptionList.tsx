@@ -9,6 +9,8 @@ import useStyle from "../../../../Style/Style";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import {PathNameType, RouteState} from "../../../../RecoilState/RouteState";
 import NewProject from "../../NewProject/NewProject";
+import {collection, getDocs, query, where, doc, getDoc} from "firebase/firestore";
+import {db} from "../../../../firebase";
 
 const LinkStyle: object = {
     color: 'inherit',
@@ -24,7 +26,7 @@ const OptionList = () => {
     const [loader,setLoader] = useRecoilState(loaderImage)
     const [routeList, setRouteList]: [Array<PathNameType>,any] = useRecoilState(RouteState)
 
-    const ChangeOption = (item: OptionType, index: number) => () => {
+    const ChangeOption = (item: OptionType, index: number) => async () => {
 
         setLoader(true)
         setOption( item )
@@ -40,16 +42,25 @@ const OptionList = () => {
             setChangeBgImage(imageBg[ index ].src.large2x)
             setLoader(false)
         }else{
-            fetch( `http://localhost:5000/category/${item._id}` )
-                .then(res=> res.json())
-                .then(res => {
-                    setLoader(false)
-                    setChangeBgImage(res.image)
-                })
-                .catch(err => {
-                    setLoader(true)
-                    console.log(err)
-                })
+            try {
+                const q = query(
+                    collection(db, "options"),
+                    where("userId", "==", item.users_Id)
+                );
+                const querySnapshot = await getDocs(q);
+
+                querySnapshot.forEach((docSnap) => {
+                    const data: any = docSnap.data();
+                    const category = data.categories.find((cat: any) => cat._id === item._id);
+                    // changer l'image
+                    setChangeBgImage(category.image);
+                });
+            } catch (err) {
+                console.error("Error fetching Firestore doc:", err);
+                setLoader(true);
+            } finally {
+                setLoader(false);
+            }
         }
     }
 
