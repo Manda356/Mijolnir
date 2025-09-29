@@ -13,7 +13,7 @@ const IssueList = ({ data }: any) => {
     const addIssue = () => {
         setIssueData([...issueData, "New issue"])
     }
-    console.log(data)
+
     return (
         <Box>
             {/*<TitleData data={data} reference="issue" size={15}/>*/}
