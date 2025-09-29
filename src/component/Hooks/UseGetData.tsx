@@ -74,7 +74,7 @@ const useGetData = ( url: string ) => {
     const GetData = async (userId: any) => {
         try {
             // 🔹 Récupérer les tâches où userId == users.uid
-            const q = query(collection(db, "tasks"), where("userId", "==", userId));
+            const q = query(collection(db, "tasks"), where("users_Id", "==", userId));
             const querySnapshot = await getDocs(q);
 
             const response: any = [];
