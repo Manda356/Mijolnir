@@ -77,19 +77,15 @@ const Sign_up: React.FC = () => {
                         userId: user.uid, // 🔑 lien avec l'utilisateur
                         categories: [
                             {
-                                _id: 1,
                                 image: "https://images.pexels.com/photos/91216/pexels-photo-91216.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                             },
                             {
-                                _id: 2,
                                 image: "https://images.pexels.com/photos/2888489/pexels-photo-2888489.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                             },
                             {
-                                _id: 3,
                                 image: "https://images.pexels.com/photos/568785/pexels-photo-568785.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                             },
                             {
-                                _id: 4,
                                 image: "https://images.pexels.com/photos/239107/pexels-photo-239107.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                             }
                         ]

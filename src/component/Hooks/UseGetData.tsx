@@ -47,12 +47,11 @@ const useGetData = ( url: string ) => {
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 // ici on suppose que tu as `categories: [...]` dans Firestore
-                response = data.categories || [];
+                response = data.categories.map(( ca: any ) => ca._id ? ({ ...ca, users_Id: userId }) : ({ _id: doc.id, ...ca })) || [];
             });
-
             // 🔹 Même logique que ton ancien code
             const newOption = option.map((item, index) => ({ ...item, ...response[index], users_Id: userId }));
-            const optionEnd = response.filter((item) => item.option !== undefined);
+            const optionEnd = response.filter((item) => item.option !== undefined);// optionEnd - liste des nouveau menu
             const pathNow = newOption.filter((item) => document.location.pathname === item.path);
 
             setOption([...newOption, ...optionEnd]);

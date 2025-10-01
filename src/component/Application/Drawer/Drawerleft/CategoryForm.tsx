@@ -9,10 +9,11 @@ import {PathNameType, RouteState} from "../../../../RecoilState/RouteState";
 import Planned from "../../Planned/Planned";
 import NewProject from '../../NewProject/NewProject';
 import {PexelsImage} from "../../State/BackgroundImage";
+import {doc, updateDoc, arrayUnion} from "firebase/firestore";
+import {db} from "../../../../firebase";
 
 const CategoryForm = () => {
     const classes = useStyle()
-    const url: string = "http://localhost:5000/category/"
     const [option, setOption]:[Array<OptionType>,any] = useRecoilState<Array<OptionType>>(OptionState)
     const project = useRecoilValue(Project)
     const [routeList,setRouteList]: [Array<PathNameType>,any] = useRecoilState(RouteState)
@@ -38,19 +39,19 @@ const CategoryForm = () => {
         }])
 
         try {
-            const response = await fetch( url, {
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    image: imageBg[ option.length ].src.large2x,
-                    option: "Category",
-                    project: newData.project,
-                    users_Id: project.users_Id,
-                    path: `/${newData.project}`,
-                })
-            })
+            if(project._id){
+                const docRef = doc(db, "options", project._id); // ton ID document
 
-            console.log(url,await response.json())
+                await updateDoc(docRef, {
+                    categories: arrayUnion({
+                        _id: Date.now(), // ou un autre id unique
+                        image: imageBg[option.length].src.large2x,
+                        option: "Category",
+                        project: newData.project,
+                        path: `/${newData.project}`,
+                    }),
+                });
+            }
         }catch (err){
             console.log(err)
         }
