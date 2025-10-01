@@ -20,12 +20,9 @@ const TaskContent = ({ item, index }: any) => {
         setDrawer(true)
         setTimeout(async () => {
             try {
-                if( data.id ){
-                    // Récupère une référence au document
-                    const docRef = doc(db, "tasks", data.id);
-                    // Récupère le document
-                    const docSnap = await getDoc(docRef);
-                    // modifier le donner _id = id
+                if( data.id ){// Récupère une référence au document
+                    const docRef = doc(db, "tasks", data.id);// Récupère le document
+                    const docSnap = await getDoc(docRef);// modifier le donner _id = id
                     const response = { _id: docSnap.id, ...docSnap.data() };
                     // affichier la tache
                     setTaskOpen(response);
