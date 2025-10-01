@@ -5,6 +5,8 @@ import DeleteDialog from '../../Dialog/DeleteDialog';
 import {TaskOpen, TaskState, TaskType} from "../../State/TaskState";
 import {useRecoilValue, useRecoilState, useSetRecoilState} from "recoil";
 import {DrawerStateGa} from "../../State/DrawerState";
+import {doc, deleteDoc} from "firebase/firestore";
+import {db} from "../../../../firebase";
 
 const style = {
     display: "flex",
@@ -16,12 +18,11 @@ const style = {
 
 const DeleteAndTimeCreated = () => {
 
-    const url: string = "http://localhost:5000/tasks/"
     const [open, setOpen] = React.useState(false);
     const [data, setData]: [Array<TaskType>,any] = useRecoilState(TaskState)
     const tasks: TaskType|any = useRecoilValue(TaskOpen)
     const setDrawer = useSetRecoilState(DrawerStateGa)
-    const dataFilter = data.filter(item => item._id !== tasks._id);
+    const dataFilter = data.filter(item => item.id !== tasks._id);
     const handleClickOpen = () => setOpen(true)
 
     const handleClose = () => setOpen(false)
@@ -32,10 +33,9 @@ const DeleteAndTimeCreated = () => {
         setDrawer( false )
 
         try {
-            const response: any = await fetch( url + tasks._id , { method: 'DELETE' })
-            await response.json()
+            await deleteDoc(doc(db, "tasks", tasks._id));
         } catch (e) {
-            console.log(e)
+            console.error("Erreur suppression:", e);
         }
     }
 
