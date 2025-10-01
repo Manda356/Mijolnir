@@ -11,7 +11,6 @@ import {db} from "../../../firebase";
 
 const TaskContent = ({ item, index }: any) => {
     const classes = useStyle()
-    const url = 'http://localhost:5000/tasks/'
     const setDrawer = useSetRecoilState(DrawerStateGa)
     const setTaskOpen = useSetRecoilState(TaskOpen)
     const setTaskOpenLoader = useSetRecoilState(TaskOpenLoader)
@@ -26,7 +25,7 @@ const TaskContent = ({ item, index }: any) => {
                     const docRef = doc(db, "tasks", data.id);
                     // Récupère le document
                     const docSnap = await getDoc(docRef);
-                    // modifier le donner id == _id
+                    // modifier le donner _id = id
                     const response = { _id: docSnap.id, ...docSnap.data() };
                     // affichier la tache
                     setTaskOpen(response);
