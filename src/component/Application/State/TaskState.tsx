@@ -18,6 +18,7 @@ export const TaskLoader = atom({
 })
 
 export type TaskType = {
+    id?: string,
     _id?: string,
     users_Id?: string,
     option_Id?: string | number,

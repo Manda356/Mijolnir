@@ -6,6 +6,8 @@ import useStyle from "../../../Style/Style";
 import {TaskOpen, TaskOpenLoader, TaskType} from "../State/TaskState";
 import {useSetRecoilState} from "recoil";
 import {DrawerStateGa} from "../State/DrawerState";
+import {doc, getDoc} from "firebase/firestore";
+import {db} from "../../../firebase";
 
 const TaskContent = ({ item, index }: any) => {
     const classes = useStyle()
@@ -19,11 +21,17 @@ const TaskContent = ({ item, index }: any) => {
         setDrawer(true)
         setTimeout(async () => {
             try {
-                const res = await fetch( url + data._id )
-                const response = await res.json()
-
-                setTaskOpen( response )
-                setTaskOpenLoader( false )
+                if( data.id ){
+                    // Récupère une référence au document
+                    const docRef = doc(db, "tasks", data.id);
+                    // Récupère le document
+                    const docSnap = await getDoc(docRef);
+                    // modifier le donner id == _id
+                    const response = { _id: docSnap.id, ...docSnap.data() };
+                    // affichier la tache
+                    setTaskOpen(response);
+                    setTaskOpenLoader(false);
+                }
             }catch (e) {
                 console.log(e)
             }
