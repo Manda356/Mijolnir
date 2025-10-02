@@ -32,6 +32,8 @@ const usePostData = (url: string, update: any) => {
         const newData = Object.fromEntries( formData.entries() )
         const pathName: any = url.split("/").at(-2)
 
+        setDataTask([ ...dataTask, { ...newData, ...update } ])
+
         try {
             const res = await saveData({ ...newData, ...update }, pathName );
             // affichier une tache
