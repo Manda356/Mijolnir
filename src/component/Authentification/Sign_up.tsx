@@ -26,7 +26,7 @@ const theme = createTheme();
 const Sign_up: React.FC = () => {
     const navigate = useNavigate()
     const classes: any = useStyle()
-
+    const [ disabled, setDisabled ] = useState(false)
     const [[ username, email, password, confirmation ], setError] =
         useState([false, false, false, false])
     // Redirection si déjà connecté
@@ -58,9 +58,11 @@ const Sign_up: React.FC = () => {
         ))
 
         setError(dataError)
+        setDisabled( true )
 
         if (dataError.find((err: boolean) => err)) {
             console.error("Erreur validation")
+            setDisabled( false )
         } else {
             try {
                 // 🔹 Création de l'utilisateur Firebase
@@ -98,6 +100,7 @@ const Sign_up: React.FC = () => {
             } catch (err: any) {
                 console.error("Erreur Firebase:", err.message)
                 setError([false, true, true, true])
+                setDisabled( false )
             }
         }
     }
@@ -126,6 +129,7 @@ const Sign_up: React.FC = () => {
                                        margin="normal"
                                        required
                                        fullWidth
+                                       disabled={disabled}
                                        id="username"
                                        label="Username"
                                        name="username"
@@ -138,6 +142,7 @@ const Sign_up: React.FC = () => {
                                        margin="normal"
                                        required
                                        fullWidth
+                                       disabled={disabled}
                                        label="Email Address"
                                        name="email"
                                        autoComplete="email"
@@ -148,6 +153,7 @@ const Sign_up: React.FC = () => {
                                        margin="normal"
                                        required
                                        fullWidth
+                                       disabled={disabled}
                                        name="password"
                                        label="Password"
                                        type="password"
@@ -159,6 +165,7 @@ const Sign_up: React.FC = () => {
                                        margin="normal"
                                        required
                                        fullWidth
+                                       disabled={disabled}
                                        name="confirmation"
                                        label="Confirmation"
                                        type="password"
@@ -168,8 +175,9 @@ const Sign_up: React.FC = () => {
                             <Button size="small"
                                     type="submit"
                                     fullWidth
+                                    disabled={disabled}
                                     variant="contained"
-                                    sx={{ mt: 2, mb: 2 }}>Create</Button>
+                                    sx={{ mt: 2, mb: 2 }}>Create{ disabled ? "..." : "" }</Button>
 
                             <Grid container>
                                 <Grid item xs>
