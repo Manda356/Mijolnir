@@ -47,7 +47,7 @@ const useGetData = ( url: string ) => {
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 // ici on suppose que tu as `categories: [...]` dans Firestore
-                response = data.categories.map(( ca: any ) => ca._id ? ({ ...ca, users_Id: userId }) : ({ _id: doc.id, ...ca })) || [];
+                response = data.categories.map(( ca: any, i: number ) => ca._id ? ({ ...ca, users_Id: userId }) : ({ _id: i, ...ca })) || [];
             });
             // 🔹 Même logique que ton ancien code
             const newOption = option.map((item, index) => ({ ...item, ...response[index], users_Id: userId }));

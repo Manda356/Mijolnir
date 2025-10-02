@@ -50,8 +50,9 @@ const OptionList = () => {
                 const querySnapshot = await getDocs(q);
 
                 querySnapshot.forEach((docSnap) => {
-                    const data: any = docSnap.data();
-                    const category = data.categories.find((cat: any) => cat._id === item._id);
+                    let id: any = item._id
+                    let data: any = docSnap.data();
+                    let category = data.categories.find((cat: any, i: number) => cat._id ? cat._id === id : i === id);
                     // changer l'image
                     setChangeBgImage(category.image);
                 });
