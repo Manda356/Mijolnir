@@ -31,6 +31,7 @@ export const formStyle = {
 const Sign_in: React.FC = () => {
     const [[ email, password ], setError ] = useState([ false,false ])
     const navigate = useNavigate()
+    const [ disabled, setDisabled ] = useState(false)
     const classes: any = useStyle()
 
     // Vérifier si user est déjà connecté
@@ -54,9 +55,11 @@ const Sign_in: React.FC = () => {
         const dataArray: any = Object.values(newData)
 
         setError(dataArray.map((item: string) => item === ""))
+        setDisabled( true )
 
         if (email || password){
             console.log("error")
+            setDisabled( false )
         } else {
             try {
                 await signInWithEmailAndPassword(
@@ -71,6 +74,7 @@ const Sign_in: React.FC = () => {
             } catch (err: any) {
                 console.error(err)
                 setError([true, true])
+                setDisabled( false )
             }
         }
     }
@@ -92,12 +96,15 @@ const Sign_in: React.FC = () => {
 
                         <Typography component="h1" variant="h5">Sign in</Typography>
 
-                        <Box component="form" onSubmit={SignInUsers} noValidate sx={{ mt: 1 }}>
+                        <Box component="form"
+                             onSubmit={SignInUsers}
+                             noValidate sx={{ mt: 1 }}>
                             <TextField error={email}
                                        size="small"
                                        margin="normal"
                                        required
                                        fullWidth
+                                       disabled={disabled}
                                        id="email"
                                        label="Email Address"
                                        name="email"
@@ -109,6 +116,7 @@ const Sign_in: React.FC = () => {
                                        margin="normal"
                                        required
                                        fullWidth
+                                       disabled={disabled}
                                        name="password"
                                        label="Password"
                                        type="password"
@@ -116,15 +124,19 @@ const Sign_in: React.FC = () => {
                                        autoComplete="current-password"/>
 
                             <FormControlLabel
-                                control={<Checkbox value="remember" size="small" color="primary" />}
+                                control={<Checkbox value="remember"
+                                                   disabled={disabled}
+                                                   size="small"
+                                                   color="primary" />}
                                 label={<Typography variant="body2">Remember me</Typography>}
                             />
 
                             <Button type="submit"
                                     fullWidth
                                     size="small"
+                                    disabled={disabled}
                                     variant="contained"
-                                    sx={{ mt: 1, mb: 2 }}>Sign In</Button>
+                                    sx={{ mt: 1, mb: 2 }}>Sign In{ disabled ? "..." : "" }</Button>
 
                             <AuthLink />
                         </Box>
